@@ -1,0 +1,1710 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaB - Tutoriel d'installation ArchLinux</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+  <meta name="description" content="Un guide pas a pas dedié a l'installation de ArchLinux en mode Bios et UEFI">
+  <meta name="author" content="Flabby Owl">
+  <link rel="stylesheet" href="css/materialize.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+
+<body>
+
+  <div class="row">
+    <div class="col m3 hide-on-med-and-down">
+      <!--Table des Matieres-->
+      <ul class="section table-of-contents" id="summary">
+        <img class="responsive-img" src="img/arch-logo.svg" alt="Logo ArchLinux" />
+        <li class="flow-text"><a href="#introduction">1. Dessiner les plans</a></li>
+        <li class="flow-text"><a href="#base">2. Couler les fondations</a></li>
+        <li class="flow-text"><a href="#graphique">3. Monter les murs</a></li>
+        <li class="flow-text"><a href="#desktop">4. Installer les meubles</a></li>
+      </ul>
+    </div>
+
+
+    <div class="col m9 s12">
+      <!--Section Introduction-->
+      <div id="introduction" class="section scrollspy">
+        <h4 class="indigo-text darken-4">Partie 1. Dessiner les plans - Introduction </h4>
+
+        <p class="flow-text">Ce petit guide détaillera le processus d'installation de ArchLinux ainsi que les principaux
+          Environnements de Bureau (Desktop Environnement). L'installation terminée proposera un environnement
+          suffisament ettofé pour etre utilisable.</p>
+
+        <p class="flow-text">Pour des raisons evidentes, je n'aborderais pas l'ajout de materiel tels que imprimantes,
+          scanners ou webcams. Je vous renvoie aux wikis <a href="https://wiki.archlinux.org/">anglophones</a> et <a
+            href="http://wiki.archlinux.fr/Accueil">francophones</a> pour ce genre de manipulations.</p>
+
+        <p class="flow-text">Ce tutoriel est volontairement simplifié. Il va vous permettre de voir comment installer
+          une ArchLinux en solo. Ensuite, s’il y a des spécificités liées à votre matériel, c’est au cas par cas qu’il
+          faut regarder et compulser frénétiquement les wikis ci-dessus. Si vous voulez installer une Archlinux en
+          parallèle d’une installation de MS-Windows, c’est en dehors du cadre de ce tutoriel.</p>
+
+        <p class="flow-text">Ce guide est basé sur la derniere version du guide "Installer ArchLinux et Gnome Version
+          68" par <a href="http://frederic.bezies.free.fr/blog">Frédéric Béziès</a> avec son aimable autorisation,
+          readapté et remis au gout du jour. Certaines tournures de phrases, parfois identiques au mot près, ne sont
+          donc pas le fruit du hasard. Merci a lui.</p>
+      </div>
+
+      <!--Section Installation de la base-->
+      <div id="base" class="section scrollspy">
+        <h4 class="indigo-text darken-4">Partie 2. Couler les fondations - Configuration/Installation de la base </h4>
+
+        <p class="flow-text">Installer une Archlinux, c’est comme construire une maison. On commence par les fondations,
+          et on rajoute les murs et le reste par la suite. </p>
+
+        <p class="flow-text">La procedure etant differente selon si votre systeme fonctionne en mode BIOS ou en mode
+          UEFI, la suite de ce guide dependra de l'option que vous selectionnerez par la suite.</p>
+
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s6" id="bTab"><a href="#bios">BIOS</a></li>
+              <li class="tab col s6" id="uTab"><a href="#uefi">UEFI</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!--Partie concernant les BIOS-->
+        <div id="bios" class="col s12">
+          <h5 class="red-text darken-5">Partie 2.A: Configuration des partitions en mode BIOS</h5>
+
+          <p class="flow-text">La selection des lignes de commande a taper a étée volontairement désactivée afin que
+            vous tapiez vous meme ces commandes et que vous les adaptiez en conséquence, elles ne sont ecrites de
+            cette maniere qu'a titre <b>INDICATIF</b></p>
+
+          <p class="flow-text">Les captures d'ecran mentionnent une nomenclature differente au niveau des disques,
+            cela vient du fait que celles-ci ont été faites sur QEMU (sda devenant vda), vous devrez donc modifier
+            cela pour coller a votre situation</p>
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/archbios.png">
+                  <p>Ecran de démarrage en mode BIOS</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="flow-text">Quand vous aurez demarré en mode Live et que ArchLinux vous aura laissé la main, la
+            première chose à faire, c’est d’avoir le clavier français :</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> loadkeys fr<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Un fois ceci fait nous allons pouvoir lancer cfdisk afin de gerer notre
+            partitionnement:</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> cfdisk<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Choisissez l’option « dos » pour le « label type » à appliquer.</p>
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/cfdisk1.png">
+                  <p>Premier démarrage de cfdisk</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="flow-text">Voici un exemple de partitionnement type a adapter selon vos besoins et préférences</p>
+
+
+          <table class="striped">
+            <thead>
+              <tr>
+                <th>Référence</th>
+                <th>Point de montage</th>
+                <th>Taille</th>
+                <th>Système de fichiers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>/dev/sda1</td>
+                <td>/boot</td>
+                <td>512mo</td>
+                <td>ext4</td>
+              </tr>
+              <tr>
+                <td>/dev/sda2</td>
+                <td></td>
+                <td>Taille de la mémoire vive ou plus – à partir de 8 Go de mémoire vive, 1 Go est conseillé</td>
+                <td>swap</td>
+              </tr>
+              <tr>
+                <td>/dev/sda3</td>
+                <td>/</td>
+                <td>20 Go minimum</td>
+                <td>ext4</td>
+              </tr>
+              <tr>
+                <td>/dev/sda4</td>
+                <td>/home</td>
+                <td>Ce qui reste</td>
+                <td>ext4</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="flow-text">Il ne faut pas oublier de définir la partition attribuée à /boot comme démarrable
+            (bootable):</p>
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/cfdisk2.png">
+                  <p>CFDISK en action</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="flow-text">N'oubliez pas de valider vos modifications effectuées dans cfdisk en selectionnant
+            "Write" avant de quitter l'outil</p>
+
+          <p class="flow-text">Formatez les partitions ainsi crées grace aux commandes suivantes:</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkfs.ext4 /dev/sda1<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkfs.ext4 /dev/sda3<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkfs.ext4 /dev/sda4<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Formatez et activez votre swap de la maniere qui suit:</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkswap /dev/sda2<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> swapon /dev/sda2<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Pour finir, nous allons creer nos points de montage et y associer nos partitions:</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mount /dev/sda3 /mnt<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkdir
+                  /mnt/{boot,home}<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mount /dev/sda1
+                  /mnt/boot<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mount /dev/sda4
+                  /mnt/home<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Nous pouvons désormais passer a l'installation de la base...</p>
+
+        </div>
+
+        <!--Partie concernant l'UEFI-->
+        <div id="uefi" class="col s12">
+          <h5 class="red-text darken-5">Partie 2.B: Configuration des partitions en mode UEFI</h5>
+
+          <p class="flow-text">La selection des lignes de commande a taper a étée volontairement désactivée afin que
+            vous tapiez vous meme ces commandes et que vous les adaptiez en conséquence, elles ne sont ecrites de
+            cette maniere qu'a titre <b>INDICATIF</b></p>
+
+          <p class="flow-text">Les captures d'ecran mentionnent une nomenclature differente au niveau des disques,
+            cela vient du fait que celles-ci ont été faites sur QEMU (sda devenant vda), vous devrez donc modifier
+            cela pour coller a votre situation</p>
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/archuefi.png">
+                  <p>Ecran de démarrage en mode UEFI</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="flow-text">Quand vous aurez demarré en mode Live et que ArchLinux vous aura laissé la main, la
+            première chose à faire, c’est d’avoir le clavier français :</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> loadkeys fr<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+
+          <p class="flow-text">Un fois ceci fait nous allons pouvoir lancer cgdisk afin de gerer notre
+            partitionnement:</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> cgdisk /dev/sda<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Voici un exemple de partitionnement type a adapter selon vos besoins et préférences</p>
+
+
+          <table class="striped">
+            <thead>
+              <tr>
+                <th>Référence</th>
+                <th>Point de montage</th>
+                <th>Taille</th>
+                <th>Système de fichiers</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>/dev/sda1</td>
+                <td>/</td>
+                <td>20 Go minimum</td>
+                <td>ext4</td>
+              </tr>
+              <tr>
+                <td>/dev/sda2</td>
+                <td>/boot/efi</td>
+                <td>512mo</td>
+                <td>FAT32</td>
+              </tr>
+              <tr>
+                <td>/dev/sda3</td>
+                <td></td>
+                <td>Taille de la mémoire vive ou plus – à partir de 8 Go de mémoire vive, 1 Go est conseillé</td>
+                <td>swap</td>
+              </tr>
+              <tr>
+                <td>/dev/sda4</td>
+                <td>/home</td>
+                <td>Ce qui reste</td>
+                <td>ext4</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="flow-text">La partition boot devra etre de type EFI System (EF00) et la swap de type swap (8200)
+          </p>
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/cgdisk.png">
+                  <p>CGDISK en action pour le mode UEFI</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="flow-text">N'oubliez pas de valider vos modifications effectuées dans cgdisk en selectionnant
+            "Write" avant de quitter l'outil</p>
+          <p class="flow-text">Formatez les partitions ainsi crées grace aux commandes suivantes:</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkfs.ext4 /dev/sda1<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkfs.fat -F32
+                  /dev/sda2<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkfs.ext4 /dev/sda4<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Formatez et activez votre swap de la maniere qui suit:</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkswap /dev/sda3<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> swapon /dev/sda3<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Pour finir, nous allons creer nos points de montage et y associer nos partitions:</p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mount /dev/sda1 /mnt<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkdir
+                  /mnt/{boot,home}<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mkdir /mnt/boot/efi<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mount /dev/sda2
+                  /mnt/boot/efi<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="red-text">root</span>@archiso ~ <span class="white-text">#</span> mount /dev/sda4
+                  /mnt/home<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">Nous pouvons désormais passer a l'installation de la base...</p>
+        </div>
+
+        <p class="flow-text">Nous pourrions attaquer dans le gras dirrectement et reccuperer la base de notre
+          installation mais nous allons d'abord choisir le/les mirroirs de paquets le/les plus rapide(s).</p>
+
+        <p class="flow-text">Sachez qu'il vous faudra un acces fonctionnel a Internet pour la suite des opérations. Si
+          vous utilisez une connexion wifi, informez vous au prealable sur l'outil <a
+            href="https://wiki.archlinux.org/index.php/Netctl">Netctl</a> </p>
+
+        <p class="flow-text">Si vous etes derriere un proxy:</p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> export
+                http_proxy=http://proxy:port/<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">Avec l’outil nano nous allons modifier le fichier <span
+            class="indigo-text darken-4">/etc/pacman.d/mirrorlist</span> pour ne garder qu’un seul miroir. Le plus
+          proche géographiquement et aussi le plus rapide possible. Pour une personne vivant en France, c’est de
+          préférence mir.archlinux.fr et / ou archlinux.polymorf.fr.</p>
+
+        <p class="flow-text">On edite donc le fichier indiqué ci-dessus grace a la commande suivante: </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> nano
+                /etc/pacman.d/mirrorlist<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m8">
+              <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                  src="img/placeholder.png">
+                <p>Liste des miroirs disponibles.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          J’ai utilisé le raccourci clavier suivant : <b>ALT+R</b>. On entre dans un premier temps « Server » (sans
+          les guillemets). On presse la touche entrée. On saisit « #Server » (sans les guillemets) pour commenter tous
+          les serveurs. Puis on valide en appuyant sur la touche <b>A</b>.
+        </p>
+
+        <p class="flow-text">
+          Avec le raccourci clavier <b>CTRL+W</b>, il suffit de saisir le nom du serveur qu’on veut utiliser et
+          enlever le « # » sur sa ligne. Un <b>CTRL+X</b> suivi de la touche <b>Y</b> (pour yes) permet d’enregistrer
+          la modification.
+        </p>
+
+        <p class="flow-text">
+          On passe à l’installation de la base. La deuxième ligne rajoute certains outils bien pratiques à avoir dès
+          le départ. On peut ensuite s’attaquer à l’installation proprement dite.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> pacstrap /mnt base
+                base-devel pacman-contrib nano linux linux-headers linux-firmware man-db man-pages e2fsprogs
+                sysfsutils<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> pacstrap /mnt zip unzip
+                p7zip alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text"><b>NOTE:</b> Les paquets <b>nano</b> et <b>linux</b> ne sont plus compris dans le
+          meta-package <b>base</b>, il convient donc de les installer a part, vous pouvez remplacer <b>nano</b> par
+          <b>vi/vim/emacs</b> mais inutile de vous prendre pour des experts, <b>nano</b> suffit dans la majorité des
+          cas.</p>
+
+        <p class="flow-text"><b>NOTE 2:</b> Si vous preferez le kernel LTS, remplacez <b>linux</b> par
+          <b>linux-lts</b> et <b>linux-headers</b> par <b>linux-lts-headers</b>.</p>
+
+        <p class="flow-text">Si vous êtes sur un pc portable, l’ajout de <a
+            href=" https://wiki.archlinux.org/index.php/TLP">tlp</a> est conseillé pour améliorer l’autonomie de la
+          batterie.</p>
+
+        <p class="flow-text">
+          Si vous désirez rajouter le support des microcodes pour votre processeur, il vous suffira de rajouter soit
+          le paquet <b>amd-ucode</b> (pour AMD) ou <b>intel-ucode</b> (pour Intel). Grub détectera leurs présences
+          automatiquement.
+        </p>
+
+        <p class="flow-text">
+          Maintenant que les outils de base sont installés, il faut générer le fichier <span
+            class="indigo-text darken-4">/etc/fstab</span> qui liste les partitions présentes.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> genfstab -U -p /mnt >>
+                /mnt/etc/fstab<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+
+
+        <p class="flow-text">
+          Nous allons installer le chargeur de démarrage, pour ce tutoriel nous utiliserons Grub2. Vous pouvez
+          utiliser rEFInd ou autre chose si vous le souhaitez mais ce guide ne traitera que l'installation de Grub2.
+        </p>
+
+        <p class="flow-text">
+          Pour rappel, ce guide suppose que vous installez ArchLinux en Mono-Boot, et ne prend pas en compte les
+          autres cas de figures.
+        </p>
+
+        <!--Installation de GRUB pour BIOS-->
+        <div class="row bElem">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> pacstrap /mnt grub<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <!--Installation de GRUB pour UEFI-->
+        <div class="row uElem">
+          <div class="col s12 m6">
+            <h5 class="red-text darken-5">Mode UEFI:</h5>
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> pacstrap /mnt grub
+                efibootmgr<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          On passe aux réglages de l’OS qu’on vient d’installer. Il faut donc y entrer. On utilise la commande
+          suivante :
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> arch-chroot /mnt<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Avant d’aller plus loin, voici quelques infos pratiques. Cela concerne les pays francophones comme la
+          Belgique, la Suisse, le Luxembourg ou encore le Canada francophone.
+          Nous allons par la suite créer des fichiers qui demanderont des valeurs précises. Les voici résumées ici :
+        </p>
+
+
+
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Pays</th>
+              <th>Locale (LANG)</th>
+              <th>Clavier (KEYMAP)</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>France</td>
+              <td>fr_FR.UTF-8</td>
+              <td>fr-latin9</td>
+            </tr>
+            <tr>
+              <td>Belgique</td>
+              <td>fr_BE.UTF-8</td>
+              <td>be-latin1</td>
+            </tr>
+            <tr>
+              <td>Luxembourg</td>
+              <td>fr_LU.UTF-8</td>
+              <td>fr-latin9</td>
+            </tr>
+            <tr>
+              <td>Suisse</td>
+              <td>fr_CH.UTF-8</td>
+              <td>fr_CH-latin1</td>
+            </tr>
+            <tr>
+              <td>Canada</td>
+              <td>fr_CA.UTF-8</td>
+              <td>cf</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+
+        <p class="flow-text">
+          Pour avoir le bon clavier en mode texte, créez le fichier <span
+            class="indigo-text darken-4">/etc/vconsole.conf</span>. Il suffira de l’adapter si le besoin s’en fait
+          sentir:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# nano
+                /etc/vconsole.conf<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Exemple pour la France:
+        </p>
+
+        <b class="termfont">
+          <p>KEYMAP=fr-latin9</p>
+          <p>FONT=eurlatgr</p>
+        </b>
+
+        <p class="flow-text">
+          Pour avoir la localisation française, le fichier <span class="indigo-text darken-4">/etc/locale.conf</span>
+          doit contenir la bonne valeur pour LANG.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# nano
+                /etc/locale.conf<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Exemple pour la France:
+        </p>
+
+        <b class="termfont">
+          <p>LANG=fr_FR.UTF-8</p>
+          <p>LC_COLLATE=C</p>
+        </b>
+
+
+        <p class="flow-text">
+          Verifiez si les lignes <span class="indigo-text darken-4">fr_FR.UTF-8 UTF-8</span> et <span
+            class="indigo-text darken-4">en_US.UTF-8 UTF-8</span> dans le fichier <span
+            class="indigo-text darken-4">/etc/locale.gen</span> n’ont pas de <b>#</b> devant elles, pour se faire:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# nano
+                /etc/locale.gen<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Et modifiez le fichier en consequence. Une fois que c'est fait nous allons pouvoir generer les locales:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]#
+                locale-gen<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Vous pouvez a present, si vous le desirez, activer le Français pour la session en cours (donc
+          provisoirement):
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# export
+                LANG=fr_FR.UTF-8<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Profitons en pour ajouter le nom de la machine dans le fichier <span
+            class="indigo-text darken-4">/etc/hostname</span>
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# nano
+                /etc/hostname<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Par exemple:</span>
+        </p>
+
+        <b class="termfont">
+          <p>ArchLinux</p>
+        </b>
+
+
+        <p class="flow-text">
+          En Bonus ajoutons le nom "reseau" de la machine, tant qu'on y est, dans le fichier <span
+            class="indigo-text darken-4">/etc/hosts</span>
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# nano
+                /etc/hosts<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Par exemple:</span>
+        </p>
+
+        <b class="termfont">
+          <p>127.0.0.1 ArchLinux</p>
+        </b>
+
+        <p class="flow-text">
+          Concernant le fuseau horraire, Une seule étape. Prenons le cas d’une installation avec le fuseau horaire de
+          Paris. Tout dépend de votre lieu de résidence. On commence par créer un lien symbolique :
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# ln -sf
+                /usr/share/zoneinfo/Europe/Paris /etc/localtime<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Synchronisez votre horlge materielle avec le fuseau horraire configuré ci-dessus:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# hwclock
+                --systohc --utc<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Generons l'image du kernel, si vous avez choisi <span class="indigo-text darken-4">linux-lts</span>,
+          remplacez la ligne en consequence.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]#
+                mkinitcpio -p linux<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m8">
+              <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                  src="img/placeholder.png">
+                <p>Génération du kernel</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <p class="flow-text">
+          Installons maintenant grub afin de pouvoir demarrer sur notre ArchLinux fraichement installée
+        </p>
+        <!--Configuration de GRUB pour BIOS-->
+        <div class="row bElem">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]#
+                grub-install --no-floppy --recheck /dev/sda<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+        <!--Configuration de GRUB pour UEFI-->
+        <div class="row uElem">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# mount |
+                grep efivars &> /dev/null || mount -t efivarfs efivarfs
+                /sys/firmware/efi/efivars<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="row uElem">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]#
+                grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Après avoir généré l’image noyau et installé grub, il faut passer au fichier de configuration du lanceur.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]#
+                grub-mkconfig -o /boot/grub/grub.cfg<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Bien entendu, aucune erreur ne doit apparaître. On donne un mot de passe au compte root :
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# passwd
+                root<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Pendant que nous en sommes dans les comptes utilisateurs, créons donc notre compte:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# useradd
+                -m -g wheel -c 'Nom complet de l’utilisateur' -s /bin/bash nom-de-l’utilisateur<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Attribuez un mot de passe a ce nouveau compte fraichement créé:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# passwd
+                nom-de-l’utilisateur<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Profitons enfin du fait que l'utilisateur ai été ajouté au groupe <b>wheel</b> pour activer le <b>sudo</b>
+          pour ce groupe, ça nous sera utile par la suite.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# nano
+                /etc/sudoers<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Il faut aller, en utilisant la flèche du bas jusqu’à la ligne:
+        </p>
+
+        <b class="termfont"># %wheel ALL=(ALL) ALL</b>
+
+        <p class="flow-text">
+          Situé en dessous de la ligne:
+        </p>
+
+        <b class="termfont">##Uncomment to allow members of group wheel to execute any command</b>
+
+        <p class="flow-text">
+          Decommenter celle-ci en enlevant le <b>#</b> et enregistrez.
+        </p>
+
+        <p class="flow-text">
+          <b>RAPPEL:</b> Sur nano, <b>CTRL+X</b> suivi de la touche <b>Y</b> (pour yes) permet d’enregistrer
+          la modification.
+        </p>
+
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m8">
+              <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                  src="img/placeholder.png">
+                <p>Edition du fichier /etc/sudoers</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <p class="flow-text">
+          Afin d'eviter tous problemes futurs nous allons installer notre gestionnaire de connexion réseau des
+          maintenant. Pour l'exemple ca sera <span class="indigo-text darken-4">NetworkManager</span> mais vous pouvez
+          tout aussi bien utiliser <a href="https://wiki.archlinux.org/index.php/Wicd">Wicd</a>.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# pacman
+                -Syy networkmanager<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# systemctl
+                enable NetworkManager<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          <b>NOTE:</b> <span class="indigo-text darken-4">netctl</span> et <span
+            class="indigo-text darken-4">networkmanager</span> rentrent en conflit et ne doivent pas être utilisé en
+          même temps. D’ailleurs, <span class="indigo-text darken-4">netctl</span> et <span
+            class="indigo-text darken-4">wicd</span> entrent aussi en conflit. <b class="red-text">Une règle simple :
+            un seul gestionnaire de connexion réseau à la fois !</b>
+        </p>
+
+        <p class="flow-text">
+          <b>NOTE 2:</b> Si vous voulez utiliser des réseaux wifi directement avec NetworkManager et son applet, le
+          paquet gnome-keyring est indispensable.
+        </p>
+
+        <p class="flow-text">
+          Nous en avons fini avec l'installation de notre systeme de base, on peut maintenant tout quitter, démonter
+          proprement les partitions et redémarrer:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@archiso /]# exit<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> umount -R /mnt<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="red-text">root</span>@archiso ~ <span class="white-text">#</span> reboot<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text red-text">
+          Pensez a bien déconnecter votre clé USB ou retirer votre CD de votre lecteur afin d'eviter que votre machine
+          ne se relance dessus.
+        </p>
+      </div>
+      <!--Section Configuration Graphique-->
+      <div id="graphique" class="section scrollspy">
+        <h4 class="indigo-text darken-4">Partie 3. Monter les murs - Configuration/Installation de l'environnement
+          graphique </h4>
+
+        <p class="flow-text">
+          Nous attaquons donc la partie la plus intéressante, l’installation de l’environnement graphique.
+        </p>
+
+        <p class="flow-text">
+          Une fois le système démarré, on se connecte <b>en root</b>. Étant donné que j’ai installé NetworkManager (ou
+          wicd selon les goûts) à l’étape précédente, le réseau fonctionne directement. J’ajoute ntp (synchronisation
+          de l’heure en ligne) et git (Tres utile pour le developpement, mais aussi indispensable pour reccuperer
+          certains logiciels ou autres).
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                pacman -Syy<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                pacman -S ntp git<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Activons le service ntp:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                systemctl enable ntpd<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Les outils en place, on lance alsamixer avec la commande du même nom, pour configurer le niveau sonore :
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                alsamixer<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m8">
+              <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                  src="img/placeholder.png">
+                <p>Alsamiser en action</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Une fois l’ensemble configuré, pour le conserver tel quel, il suffit d’entrer :
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                alsactl store<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          On va installer l’ensemble des greffons gstreamer qui nous permettront de lire vos fichiers multimédias.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                pacman -S gst-plugins-{base,good,bad,ugly} gst-libav<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Passons maintenant a l'indispensable Xorg:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                pacman -S xorg-{server,xinit,apps} xf86-input-libinput xdg-user-dirs<span class="blinking">_</span></b>
+            </div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Il faut ensuite choisir le pilote pour le GPU. Voici les principaux pilotes, sachant que le paquet <span
+            class="indigo-text darken-4">xf86-video-vesa</span> englobe une énorme partie des circuits graphiques,
+          dont ceux non listés dans le tableau un peu plus loin. En cas de doute, allez lire la partie dediée sur la
+          documentation de <span class="indigo-text darken-4">Xorg</span> sur le <a
+            href="https://wiki.archlinux.org/index.php/Xorg#Driver_installation">Wiki de Xorg sur ArchLinux</a> :
+        </p>
+
+        <p class="flow-text">
+          Concernant les pilotes proprietaires <span class="indigo-text darken-4">NVidia</span>, c'est la fete du
+          slip, referez vous au <a href="https://wiki.archlinux.org/index.php/NVIDIA.">Wiki Nvidia sur ArchLinux</a>
+          et si vous etes <b>TRES</b> malchanceux et que vous etes le malheureux possesseur de la technologie <span
+            class="indigo-text darken-4">Optimus</span>, <a
+            href="https://wiki.archlinux.org/index.php/NVIDIA_Optimus">C'est par ici !</a>
+        </p>
+
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>GPU</th>
+              <th>Pilotes libres</th>
+              <th>Pilotes proprietaires</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>AMD</td>
+              <td>
+                <p>xf86-video-ati</p>
+                <p>xf86-video-amdgpu</p>
+              </td>
+              <td>
+                <a href="https://wiki.archlinux.org/index.php/AMDGPU#AMDGPU_PRO">Wiki AMDGPU/AMDGPU-PRO</a>
+              </td>
+            </tr>
+            <tr>
+              <td>NVidia</td>
+              <td>xf86-video-nouveau</td>
+              <td><a href="https://wiki.archlinux.org/index.php/NVIDIA">Wiki Nvidia</a></td>
+            </tr>
+            <tr>
+              <td>Intel</td>
+              <td>xf86-video-intel</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="flow-text">
+          <b>NOTE:</b> Le pilote <span class="indigo-text darken-4">AMDGPU-PRO</span> est telechargeable sur AUR et
+          fonctionne <span class="indigo-text darken-4">"au dessus"</span> des pilotes libres <span
+            class="indigo-text darken-4">AMDGPU</span>, ils ne fonctionnent pas sans ceux-ci. En cas de doute,
+          refferez vous au <a href="https://wiki.archlinux.org/index.php/AMDGPU#AMDGPU_PRO">Wiki AMDGPU/AMDGPU-PRO</a>
+        </p>
+
+        <p class="flow-text">
+          <b>NOTE 2:</b> Le pilote <span class="indigo-text darken-4">xf86-video-intel</span> n'est plus utilisé, le
+          kernel prenant en charge nativement la majorité des IGP Intel, l'installer induirait une perte de
+          performances. A vos risques et perils. Merci <b>ChenNux</b> pour cette precision.
+        </p>
+
+        <p class="flow-text">
+          Installons ensuite les principales polices de base:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                pacman -S ttf-{bitstream-vera,liberation,dejavu} freetype2 gnu-free-fonts<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          <b>NOTE:</b> Si vous desirez les polices Microsoft, celles-ci sont disponibles sur AUR, vous aurez donc
+          besoin d'un "enrobeur" comme <span class="indigo-text darken-4">Yay</span> ou <span
+            class="indigo-text darken-4">Trizen</span>, nous verrons ca plus tard dans le guide
+        </p>
+
+        <p class="flow-text">
+          Nous allons maintenant installer tout un enssemble de programmes qui peuvent etre considerés comme
+          indispensables:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                pacman -S gimp gimp-help-fr libreoffice-fresh-fr firefox-i18n-fr thunderbird-i18n-fr vlc<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Naturellement vous pouvez remplacer Firefox par votre navigateur favori.
+        </p>
+
+        <p class="flow-text">
+          <b>NOTE:</b> Ces programmes sont totalement facultatifs et vous pouvez tout aussi bien les installer au moment
+          de choisir votre "Desktop Environnement", mais au moins c'est fait et vous n'avez plus a vous en occuper
+        </p>
+
+        <p class="flow-text">
+          Nous allons maintenant installer <span class="indigo-text darken-4">Yay</span> pour pouvoir telecharger et
+          installer facilement tout ce qui vient de <b>AUR</b>... <span class="indigo-text darken-4">Yay</span> est
+          disponible sur <b>AUR</b>, donc comment faire ? c'est tres simple, commencez par vous quitter votre session
+          root, car a partir de maintenant, nous ferons tout sur notre compte utilisateur a l'aide de <b>sudo</b>.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect">[root@nom-machine ~]#
+                exit<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Connectez vous sur votre session utilisateur et installez <span class="indigo-text darken-4">Yay</span>.
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                  class="green-text">]$</span> git clone https://aur.archlinux.org/yay<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                  class="green-text">]$</span> cd yay<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                  class="green-text">]$</span> makepkg -sri<span class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Profitez du fait que vous aillez installé <span class="indigo-text darken-4">Yay</span> pour installer vos
+          pilotes proprietaires ou les polices microsoft si vous le souhaitez. La syntaxe pour utiliser <span
+            class="indigo-text darken-4">Yay</span> est identique a celle utilisée par <span
+            class="indigo-text darken-4">pacman</span>, a la difference qu'on n'utilise JAMAIS sudo ou le compte root
+          pour <span class="indigo-text darken-4">Yay</span>:
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                  class="green-text">]$</span> yay -S nom-du-paquet-1 nom-du-paquet-2 nom-du-paquet-3<span
+                  class="blinking">_</span></b></div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Pour être certain d’avoir le bon clavier au démarrage de votre gestionnaire de connexion, voici une petite
+          commande à lancer (en modifiant le clavier selon les besoins) :
+        </p>
+
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                  class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                  class="green-text">]$</span> sudo localectl set-x11-keymap fr<span class="blinking">_</span></b>
+            </div>
+          </div>
+        </div>
+
+        <p class="flow-text">
+          Nous avons fini de monter les murs, notre ArchLinux est maintenant prete a acceuillir vos meubles... Vous
+          pouvez neanmoins pleinement utiliser votre distribution a partir de maintenant, mais c'est plus agreable
+          avec un gestionnaire de bureau quand meme !
+        </p>
+
+        <p class="flow-text">
+          Passons donc au chapitre suivant...
+        </p>
+      </div>
+      <!--Section Installation Desktop-->
+      <div id="desktop" class="section scrollspy">
+        <h4 class="indigo-text darken-4">Partie 4. Installer les meubles - Installation du "Desktop Environnement"
+        </h4>
+
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s2"><a href="#gnome">Gnome</a></li>
+              <li class="tab col s2"><a href="#kde">KDE</a></li>
+              <li class="tab col s2"><a href="#xfce">XFCE</a></li>
+              <li class="tab col s2"><a href="#mate">MATE</a></li>
+              <li class="tab col s2"><a href="#deepin">Deepin</a></li>
+              <li class="tab col s2"><a href="#cinnamon">Cinnamon</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!--Section dediée a Gnome-->
+        <div id="gnome" class="col s12">
+          <p class="flow-text">
+            L'installation de Gnome est simple et rapide:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo pacman -S gnome gnome-extra telepathy shotwell rhythmbox
+                  unoconv<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Demarrez donc GDM afin de vous connecter graphiquement au bureau gnome et voir si tout va bien:
+          </p>
+
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl start gdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Si tout fonctionne convenablement, vous pouvez activer le lancement automatique de GDM en ouvrant un
+            terminal (graphiquement bien entendu) et tapez y la commande suivante:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl enable gdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Gnome est maintenant parfaitement utilisable... Bonne dégustation !
+          </p>
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m6">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/placeholder.png">
+                  <p>GDM attendant son mot de passe.</p>
+                </div>
+              </div>
+              <div class="col s12 m6">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/placeholder.png">
+                  <p>Bureau par défaut de Gnome</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="row">
+
+            </div>
+          </div>
+
+        </div>
+
+        <!--Section dediée a KDE-->
+        <div id="kde" class="col s12">
+          <p class="flow-text">
+            L’installation de KDE se déroule ainsi :
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo pacman -S plasma kde-applications clementine digikam
+                  packagekit-qt5<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Demarrez donc SDDM afin de vous connecter graphiquement au bureau KDE Plasma et voir si tout va bien:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl start sddm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Si tout fonctionne convenablement, vous pouvez activer le lancement automatique de SDDM en ouvrant la
+            Konsole et y taper la commande suivante:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl enable sddm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            KDE Plasma est maintenant parfaitement utilisable... Bonne dégustation !
+          </p>
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/placeholder.png">
+                  <p>Bureau par défaut de KDE Plasma 5.x</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!--Section dediée a XFCE-->
+        <div id="xfce" class="col s12">
+          <p class="flow-text">
+            L’installation de XFCE se déroule ainsi :
+          </p>
+
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo pacman -S xfce4 xfce4-goodies gvfs
+                  gvfs-{afc,goa,google,gphoto2,mtp,nfs,smb} lightdm-gtk-{greeter,greeter-settings} file-roller
+                  galculator evince ffmpegthumbnailer xscreensaver pavucontrol pulseaudio-alsa rhythmbox<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Demarrez donc LightDM afin de vous connecter graphiquement au bureau XFCE et voir si tout va bien:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl start lightdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Si tout fonctionne convenablement, vous pouvez activer le lancement automatique de LightDM en ouvrant le
+            Terminal XFCE et y taper la commande suivante:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl enable lightdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            XFCE est maintenant parfaitement utilisable... Bonne dégustation !
+          </p>
+
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/placeholder.png">
+                  <p>Bureau par défaut de XFCE 4</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Section dediée a MATE-->
+        <div id="mate" class="col s12">
+          <p class="flow-text">
+            L’installation de MATE se déroule ainsi :
+          </p>
+
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo pacman -S mate mate-extra gnome-icon-theme accountsservice gvfs
+                  gvfs-{afc,goa,google,gphoto2,mtp,nfs,smb} lightdm-gtk-{greeter,greeter-settings} file-roller
+                  ffmpegthumbnailer pulseaudio pulseaudio-alsa libcanberra-{pulse,gstreamer} rhythmbox<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Demarrez donc LightDM afin de vous connecter graphiquement au bureau MATE et voir si tout va bien:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl start lightdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Si tout fonctionne convenablement, vous pouvez activer le lancement automatique de LightDM en ouvrant le
+            Terminal MATE et y taper la commande suivante:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl enable lightdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            MATE est maintenant parfaitement utilisable... Bonne dégustation !
+          </p>
+
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/placeholder.png">
+                  <p>Bureau par défaut de MATE</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!--Section dediée a Deepin-->
+        <div id="deepin" class="col s12">
+
+          <p class="flow-text">
+            L’installation de Deepin se déroule ainsi :
+          </p>
+
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo pacman -S deepin deepin-extra gvfs
+                  gvfs-{afc,goa,google,gphoto2,mtp,nfs,smb} lightdm-gtk-{greeter,greeter-settings}<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Demarrez donc LightDM afin de vous connecter graphiquement au bureau Deepin et voir si tout va bien:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl start lightdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Si tout fonctionne convenablement, vous pouvez activer le lancement automatique de LightDM en ouvrant le
+            Terminal Deepin et y taper la commande suivante:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl enable lightdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Deepin est maintenant parfaitement utilisable... Bonne dégustation !
+          </p>
+
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/placeholder.png">
+                  <p>Bureau par défaut de Deepin</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!--Section dediée a Cinnamon-->
+        <div id="cinnamon" class="col s12">
+          <p class="flow-text">
+            L’installation de Deepin se déroule ainsi :
+          </p>
+
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo pacman -S cinnamon gnome-extra gvfs
+                  gvfs-{afc,goa,google,gphoto2,mtp,nfs,smb} lightdm-gtk-{greeter,greeter-settings}<span
+                    class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Dans Cinnamon il manque certains outils de base, comme un terminal, un editeur de textes, une calculatrice,
+            un gestionnaire d'archive ou une visionneuse d'images, nous allons donc installer ce qui manque:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo pacman -S sakura rhythmbox geany geany-plugins galculator
+                  file-roller eog<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Demarrez maintenant LightDM afin de vous connecter graphiquement au bureau Cinnamon et voir si tout va bien:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl start lightdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Si tout fonctionne convenablement, vous pouvez activer le lancement automatique de LightDM en ouvrant le
+            Sakura et y taper la commande suivante:
+          </p>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="card-panel black lighten-2 grey-text termfont"><b class="noselect"><span
+                    class="green-text">[nom-de-l’utilisateur@nom-machine</span><span class="white-text"> ~</span><span
+                    class="green-text">]$</span> sudo systemctl enable lightdm<span class="blinking">_</span></b></div>
+            </div>
+          </div>
+
+          <p class="flow-text">
+            Cinnamon est maintenant parfaitement utilisable... Bonne dégustation !
+          </p>
+
+
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m8">
+                <div class="card-panel grey lighten-2 black-text center-align"><img class="materialboxed responsive-img"
+                    src="img/placeholder.png">
+                  <p>Bureau par défaut de Cinnamon</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
