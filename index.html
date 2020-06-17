@@ -36,7 +36,7 @@
 
         <p class="flow-text">Ce petit guide détaillera le processus d'installation de ArchLinux ainsi que les principaux
           Environnements de Bureau (Desktop Environnement). L'installation terminée proposera un environnement
-          suffisament ettofé pour etre utilisable.</p>
+          suffisament ettofé pour être utilisable.</p>
 
         <p class="flow-text">Pour des raisons evidentes, je n'aborderais pas l'ajout de materiel tels que imprimantes,
           scanners ou webcams. Je vous renvoie aux wikis <a href="https://wiki.archlinux.org/">anglophones</a> et <a
@@ -47,10 +47,10 @@
           faut regarder et compulser frénétiquement les wikis ci-dessus. Si vous voulez installer une Archlinux en
           parallèle d’une installation de MS-Windows, c’est en dehors du cadre de ce tutoriel.</p>
 
-        <p class="flow-text">Ce guide est basé sur la derniere version du guide "Installer ArchLinux et Gnome Version
+        <p class="flow-text">Ce guide est basé sur la dernière version du guide "Installer ArchLinux et Gnome Version
           68" par <a href="http://frederic.bezies.free.fr/blog">Frédéric Béziès</a> avec son aimable autorisation,
-          readapté et remis au gout du jour. Certaines tournures de phrases, parfois identiques au mot près, ne sont
-          donc pas le fruit du hasard. Merci a lui.</p>
+          readapté et remis au goût du jour. Certaines tournures de phrases, parfois identiques au mot près, ne sont
+          donc pas le fruit du hasard. Merci à lui.</p>
       </div>
 
       <!--Section Installation de la base-->
@@ -60,8 +60,8 @@
         <p class="flow-text">Installer une Archlinux, c’est comme construire une maison. On commence par les fondations,
           et on rajoute les murs et le reste par la suite. </p>
 
-        <p class="flow-text">La procedure etant differente selon si votre systeme fonctionne en mode BIOS ou en mode
-          UEFI, la suite de ce guide dependra de l'option que vous selectionnerez par la suite.</p>
+        <p class="flow-text">La procédure étant différente selon si votre système fonctionne en mode BIOS ou en mode
+          UEFI, la suite de ce guide dépendra de l'option que vous sélectionnerez par la suite.</p>
 
         <div class="row">
           <div class="col s12">
@@ -76,11 +76,11 @@
         <div id="bios" class="col s12">
           <h5 class="red-text darken-5">Partie 2.A: Configuration des partitions en mode BIOS</h5>
 
-          <p class="flow-text">La selection des lignes de commande a taper a étée volontairement désactivée afin que
-            vous tapiez vous meme ces commandes et que vous les adaptiez en conséquence, elles ne sont ecrites de
-            cette maniere qu'a titre <b>INDICATIF</b></p>
+          <p class="flow-text">La séléction des lignes de commande à taper a étée volontairement désactivée afin que
+            vous tapiez vous même ces commandes et que vous les adaptiez en conséquence, elles ne sont écrites de
+            cette manière qu'à titre <b>INDICATIF</b></p>
 
-          <p class="flow-text">Les captures d'ecran mentionnent une nomenclature differente au niveau des disques,
+          <p class="flow-text">Les captures d'écran mentionnent une nomenclature différente au niveau des disques,
             cela vient du fait que celles-ci ont été faites sur QEMU (sda devenant vda), vous devrez donc modifier
             cela pour coller a votre situation</p>
 
@@ -106,7 +106,7 @@
             </div>
           </div>
 
-          <p class="flow-text">Un fois ceci fait nous allons pouvoir lancer cfdisk afin de gerer notre
+          <p class="flow-text">Une fois ceci fait nous allons pouvoir lancer cfdisk afin de gerer notre
             partitionnement:</p>
 
           <div class="row">
@@ -184,7 +184,7 @@
             </div>
           </div>
 
-          <p class="flow-text">N'oubliez pas de valider vos modifications effectuées dans cfdisk en selectionnant
+          <p class="flow-text">N'oubliez pas de valider vos modifications éffectuées dans cfdisk en sélectionnant
             "Write" avant de quitter l'outil</p>
 
           <p class="flow-text">Formatez les partitions ainsi crées grace aux commandes suivantes:</p>
@@ -213,7 +213,7 @@
             </div>
           </div>
 
-          <p class="flow-text">Formatez et activez votre swap de la maniere qui suit:</p>
+          <p class="flow-text">Formatez et activez votre swap de la manière qui suit:</p>
 
           <div class="row">
             <div class="col s12 m6">
@@ -231,7 +231,7 @@
             </div>
           </div>
 
-          <p class="flow-text">Pour finir, nous allons creer nos points de montage et y associer nos partitions:</p>
+          <p class="flow-text">Pour finir, nous allons créer nos points de montage et y associer nos partitions:</p>
 
           <div class="row">
             <div class="col s12 m6">
@@ -273,9 +273,9 @@
         <div id="uefi" class="col s12">
           <h5 class="red-text darken-5">Partie 2.B: Configuration des partitions en mode UEFI</h5>
 
-          <p class="flow-text">La selection des lignes de commande a taper a étée volontairement désactivée afin que
-            vous tapiez vous meme ces commandes et que vous les adaptiez en conséquence, elles ne sont ecrites de
-            cette maniere qu'a titre <b>INDICATIF</b></p>
+          <p class="flow-text">La séléction des lignes de commande à taper a étée volontairement désactivée afin que
+            vous tapiez vous même ces commandes et que vous les adaptiez en conséquence, elles ne sont écrites de
+            cette manière qu'à titre <b>INDICATIF</b></p>
 
           <p class="flow-text">Les captures d'ecran mentionnent une nomenclature differente au niveau des disques,
             cela vient du fait que celles-ci ont été faites sur QEMU (sda devenant vda), vous devrez donc modifier
@@ -292,7 +292,7 @@
             </div>
           </div>
 
-          <p class="flow-text">Quand vous aurez demarré en mode Live et que ArchLinux vous aura laissé la main, la
+          <p class="flow-text">Quand vous aurez démarré en mode Live et que ArchLinux vous aura laissé la main, la
             première chose à faire, c’est d’avoir le clavier français :</p>
 
           <div class="row">
@@ -304,7 +304,7 @@
           </div>
 
 
-          <p class="flow-text">Un fois ceci fait nous allons pouvoir lancer cgdisk afin de gerer notre
+          <p class="flow-text">Une fois ceci fait nous allons pouvoir lancer cgdisk afin de gérer notre
             partitionnement:</p>
 
           <div class="row">
@@ -315,7 +315,7 @@
             </div>
           </div>
 
-          <p class="flow-text">Voici un exemple de partitionnement type a adapter selon vos besoins et préférences</p>
+          <p class="flow-text">Voici un exemple de partitionnement type a adapter selon vos besoins et préférences:</p>
 
 
           <table class="striped">
@@ -356,7 +356,7 @@
             </tbody>
           </table>
 
-          <p class="flow-text">La partition boot devra etre de type EFI System (EF00) et la swap de type swap (8200)
+          <p class="flow-text">La partition boot devra être de type EFI System (EF00) et la swap de type swap (8200)
           </p>
 
           <div class="container">
@@ -370,7 +370,7 @@
             </div>
           </div>
 
-          <p class="flow-text">N'oubliez pas de valider vos modifications effectuées dans cgdisk en selectionnant
+          <p class="flow-text">N'oubliez pas de valider vos modifications éffectuées dans cgdisk en sélectionnant
             "Write" avant de quitter l'outil</p>
           <p class="flow-text">Formatez les partitions ainsi crées grace aux commandes suivantes:</p>
 
@@ -398,7 +398,7 @@
             </div>
           </div>
 
-          <p class="flow-text">Formatez et activez votre swap de la maniere qui suit:</p>
+          <p class="flow-text">Formatez et activez votre swap de la manière qui suit:</p>
 
           <div class="row">
             <div class="col s12 m6">
@@ -416,7 +416,7 @@
             </div>
           </div>
 
-          <p class="flow-text">Pour finir, nous allons creer nos points de montage et y associer nos partitions:</p>
+          <p class="flow-text">Pour finir, nous allons créer nos points de montage et y associer nos partitions:</p>
 
           <div class="row">
             <div class="col s12 m6">
@@ -461,10 +461,10 @@
           <p class="flow-text">Nous pouvons désormais passer a l'installation de la base...</p>
         </div>
 
-        <p class="flow-text">Nous pourrions attaquer dans le gras dirrectement et reccuperer la base de notre
-          installation mais nous allons d'abord choisir le/les mirroirs de paquets le/les plus rapide(s).</p>
+        <p class="flow-text">Nous pourrions attaquer dans le gras directemment et récuperer la base de notre
+          installation mais nous allons d'abbord choisir le/les mirroirs de paquets le/les plus rapide(s).</p>
 
-        <p class="flow-text">Sachez qu'il vous faudra un acces fonctionnel a Internet pour la suite des opérations. Si
+        <p class="flow-text">Sachez qu'il vous faudra un accès fonctionnel a Internet pour la suite des opérations. Si
           vous utilisez une connexion wifi, informez vous au prealable sur l'outil <a
             href="https://wiki.archlinux.org/index.php/Netctl">Netctl</a> </p>
 
@@ -483,7 +483,7 @@
           proche géographiquement et aussi le plus rapide possible. Pour une personne vivant en France, c’est de
           préférence mir.archlinux.fr et / ou archlinux.polymorf.fr.</p>
 
-        <p class="flow-text">On edite donc le fichier indiqué ci-dessus grace a la commande suivante: </p>
+        <p class="flow-text">On édite donc le fichier indiqué ci-dessus grace a la commande suivante: </p>
 
         <div class="row">
           <div class="col s12 m6">
